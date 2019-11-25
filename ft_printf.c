@@ -6,14 +6,11 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:39:55 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/11/25 13:29:08 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/11/25 15:59:54 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-
-
 
 void	add_to_buf(t_printf *p, void *src, size_t size)
 {
@@ -47,31 +44,77 @@ void	check_specifier(t_printf *p)
 		char *s = va_arg(p->arg, char *);
 		add_to_buf(p, s, ft_strlen(s));
 	}
-//	if (p->c == 'p')
-//	{
-//	
-//	}
+	if (p->c == 'p')
+	{
+		char *pnt;
+		if (!(pnt = ft_ultoa(va_arg(p->arg, unsigned long))))
+		{
+			p->error = -1;
+			return ;
+		}
+		char *tmp;
+		if (!(tmp = ft_convert_base(pnt, "0123456789", "0123456789abcdef")))
+		{
+			p->error = -1;
+			return ;
+		}
+		free(pnt);
+		if (!(pnt = ft_strjoin("0x", tmp)))
+		{
+			p->error = -1;
+			return ;
+		}
+		free(tmp);
+		add_to_buf(p, pnt, ft_strlen(pnt));
+		free(pnt);
+	}
 	if (p->c == 'd' || p->c == 'i')
 	{
-		char *di = ft_itoa(va_arg(p->arg, int));
+		char *di;
+		if (!(di = ft_itoa(va_arg(p->arg, int))))
+		{
+			p->error = -1;
+			return ;
+		}
 		add_to_buf(p, di, ft_strlen(di));
 		free(di);
 	}
 	if (p->c == 'u')
 	{
-		char *u = ft_uitoa(va_arg(p->arg, unsigned int));
+		char *u;
+		if (!(u = ft_uitoa(va_arg(p->arg, unsigned int))))
+		{
+			p->error = -1;
+			return ;
+		}
 		add_to_buf(p, u, ft_strlen(u));
 		free(u);
 	
 	}
-//	if (p->c == 'x')
-//	{
-//	
-//	}
-//	if (p->c == 'X')
-//	{
-//	
-//	}
+	if (p->c == 'x' || p->c == 'X')
+	{
+		char *x = ft_uitoa(va_arg(p->arg, unsigned int));
+		char *tmp;
+		if (p->c == 'x')
+		{
+			if (!(tmp = ft_convert_base(x, "0123456789", "0123456789abcdef")))
+			{
+				p->error = -1;
+				return ;
+			}
+		}
+		else
+		{
+			if (!(tmp = ft_convert_base(x, "0123456789", "0123456789ABCDEF")))
+			{
+				p->error = -1;
+				return ;
+			}
+		}
+		free(x);
+		add_to_buf(p, tmp, ft_strlen(tmp));
+		free(tmp);
+	}
 //	if (p->c == 'n')
 //	{
 //	
