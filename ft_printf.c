@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:39:55 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/11/25 15:59:54 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/11/26 13:49:45 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,25 +93,27 @@ void	check_specifier(t_printf *p)
 	}
 	if (p->c == 'x' || p->c == 'X')
 	{
-		char *x = ft_uitoa(va_arg(p->arg, unsigned int));
+		char *x;
 		char *tmp;
-		if (p->c == 'x')
+		char *base;
+		char *hash;
+		x = ft_uitoa(va_arg(p->arg, unsigned int));
+		if (ft_strncmp(x, "0", 2) == 0)
+			p->flags &= ~F_HASH;
+		base = (p->c == 'x') ? "0123456789abcdef" : "0123456789ABCDEF";
+		if (!(tmp = ft_convert_base(x, "0123456789", base)))
 		{
-			if (!(tmp = ft_convert_base(x, "0123456789", "0123456789abcdef")))
-			{
-				p->error = -1;
-				return ;
-			}
-		}
-		else
-		{
-			if (!(tmp = ft_convert_base(x, "0123456789", "0123456789ABCDEF")))
-			{
-				p->error = -1;
-				return ;
-			}
+			p->error = -1;
+			return ;
 		}
 		free(x);
+		if (p->flags & F_HASH)
+		{
+			hash = (p->c == 'x') ? "0x" : "0X";
+			x = tmp;
+			tmp = ft_strjoin(hash, tmp);
+			free(x);
+		}
 		add_to_buf(p, tmp, ft_strlen(tmp));
 		free(tmp);
 	}
@@ -133,16 +135,26 @@ void	check_specifier(t_printf *p)
 //	}
 }
 
+void	check_hash(t_printf *p)
+{
+	if (*p->format == '#')
+	{
+		p->flags |= F_HASH;
+		p->format++;
+	}
+}
+
 void	parse_spec(t_printf *p)
 {
+	check_hash(p);
 	//check for '#' flag
 	//check for '-' flag
 	//check for '+' flag
 	//check for ' ' flag
 	//check for '0' flag
 	//check for ''' flag
-	//check for field width
-	//check for precision
+	//check for field width / '*' flag
+	//check for precision / '*' flag
 	check_specifier(p);
 	//convert(format specifier) -> add_to_buf(p, "conversion", size)
 }

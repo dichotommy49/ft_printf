@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 14:52:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/11/25 14:52:48 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/11/26 13:21:56 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,22 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include "libft/libft.h"
+
+/*
+**	Flag masks definition
+*/
+
+# define F_HASH			(1 << 0)
+# define F_MINUS		(1 << 1)
+# define F_PLUS			(1 << 2)
+# define F_SPACE		(1 << 3)
+# define F_ZERO			(1 << 4)
+# define F_APOSTROPHE	(1 << 5)
+# define F_PRECISION	(1 << 6)
+
+/*
+**	Structure definition
+*/
 
 typedef	struct			s_printf
 {
