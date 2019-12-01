@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:39:55 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/01 12:22:34 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/01 13:56:07 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	add_separators(t_printf *p)
 	p->conversion = tmp;
 }
 
-void	ready_for_next_convert(t_printf *p)
+void	ready_for_next_conversion(t_printf *p)
 {
 	if (p->conversion)
 	{
@@ -174,7 +174,7 @@ void	convert(t_printf *p)
 	else if (p->c == 'u' || p->c == 'U')
 		convert_u(p);
 	else if (p->c == 'x' || p->c == 'X')
-		convert_xX(p);
+		convert_x(p);
 	//	if (p->c == 'n')
 	//	{
 	//	
@@ -203,11 +203,9 @@ void	handle_conversion(t_printf *p)
 	convert(p);
 	handle_precision(p);
 	handle_min_width(p);
-	handle_hash(p);
-	//	print_test_info(p);
 	if (p->conversion && !p->error)
 		add_to_buf(p, p->conversion, ft_strlen(p->conversion));
-	ready_for_next_convert(p);
+	ready_for_next_conversion(p);
 }
 
 void	process_format(t_printf *p)

@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 14:52:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/01 12:13:09 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/01 13:48:12 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ void					convert_s(t_printf *p);
 void					convert_p(t_printf *p);
 void					convert_di(t_printf *p);
 void					convert_u(t_printf *p);
-void					convert_xX(t_printf *p);
+void					convert_x(t_printf *p);
 void					convert_percent(t_printf *p);
 
 /*
-**	Functions to apply min width + precision + other flags to the converted string
+**	Functions to apply min width + precision + flags to the converted string
 */
 
 void					handle_min_width(t_printf *p);
