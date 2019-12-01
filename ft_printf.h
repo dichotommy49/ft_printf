@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 14:52:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/01 13:48:12 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/01 14:51:02 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,13 @@ typedef	struct			s_printf
 */
 
 int						ft_printf(const char *format, ...);
+void					process_format(t_printf *p);
+void					convert(t_printf *p);
+void					handle_initial_conversion(t_printf *p);
+void					ready_for_next_conversion(t_printf *p);
 
 /*
-**	Functions to check flags + min_width + precision
+**	Functions to parse and store flags + min_width + precision
 */
 
 void					get_flags(t_printf *p);
@@ -68,7 +72,7 @@ void					get_min_width(t_printf *p);
 void					get_precision(t_printf *p);
 
 /*
-**	Functions to perform conversions
+**	Functions to perform specific conversions
 */
 
 void					convert_c(t_printf *p);
