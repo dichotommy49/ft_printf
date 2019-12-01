@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 14:52:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/11/29 16:15:40 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/01 12:13:09 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,18 @@ void					convert_percent(t_printf *p);
 void					handle_min_width(t_printf *p);
 void					handle_precision(t_printf *p);
 void					handle_hash(t_printf *p);
+void					add_separators(t_printf *p);
 
 /*
 **	Buffer related functions
 */
 
 void					add_to_buf(t_printf *p, void *src, size_t size);
+
+/*
+**	Other miscellaneous functions
+*/
+
+void					error_return(t_printf *p, int error_number);
+
 #endif
