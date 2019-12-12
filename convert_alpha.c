@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 13:43:41 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/01 13:53:09 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/11 14:10:27 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,18 @@ void		convert_c(t_printf *p)
 		return (error_return(p, -1));
 	p->conversion[0] = va_arg(p->arg, unsigned int);
 	p->conversion[1] = '\0';
+	if (p->conversion[0] == '\0')
+		add_to_buf(p, p->conversion, 1);
 }
 
 void		convert_s(t_printf *p)
 {
-	p->conversion = ft_strdup(va_arg(p->arg, char *));
+	char *s = va_arg(p->arg, char *);
+
+	if (!s)
+		p->conversion = ft_strdup("(null)");
+	else
+		p->conversion = ft_strdup(s);
 }
 
 void		convert_percent(t_printf *p)

@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 14:05:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/01 14:50:59 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/12 13:17:39 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,25 @@ void	handle_precision(t_printf *p)
 {
 	int		padding;
 	char	*tmp;
+	char	replace;
+	char	replacement[2];
 
-	p->precision *= (p->precision < 0) ? -1 : 1;
 	if (p->flags & INTEGER_CONVERSION)
 	{
+		if ((replace = (p->conversion[0] == '-' || p->conversion[0] == '+' || p->conversion[0] == ' ') ? p->conversion[0] : 0))
+		{
+			if (!(tmp = ft_strdup(p->conversion + 1)))
+				return (error_return(p, -1));
+			free(p->conversion);
+			p->conversion = tmp;
+		}
+		if (!(p->flags & F_HASH) && p->precision == 0 && p->conversion[0] == '0')
+		{
+			if (!(tmp = ft_strdup("")))
+				return (error_return(p, -1));
+			free(p->conversion);
+			p->conversion = tmp;
+		}
 		if ((padding = p->precision - ft_strlen(p->conversion)) > 0)
 		{
 			if (!(tmp = malloc((p->precision + 1) * sizeof(*tmp))))
@@ -30,6 +45,13 @@ void	handle_precision(t_printf *p)
 			free(p->conversion);
 			p->conversion = tmp;
 		}
+		if (replace)
+		{
+			replacement[0] = replace;
+			replacement[1] = '\0';
+			prepend(p, replacement);
+		}
+
 	}
 	else if (p->c == 's' || p->c == 'S')
 	{
@@ -54,6 +76,10 @@ void	handle_min_width(t_printf *p)
 	pad = (p->flags & F_ZERO) ? '0' : ' ';
 	if ((pad_size = (p->min_width - ft_strlen(p->conversion))) > 0)
 	{
+		if (p->flags & F_ZERO && (p->c == 'x' || p->c == 'X') && p->flags & F_HASH)
+			pad_size -= 2;
+		if (p->flags & SIGNED_CONVERSION && p->flags & F_ZERO && (p->is_negative || p->flags & F_PLUS || p->flags & F_SPACE))
+			pad_size -= 1;
 		if (!(padding = malloc((pad_size + 1) * sizeof(*padding))))
 			return (error_return(p, -1));
 		ft_memset(padding, pad, pad_size);
@@ -70,14 +96,11 @@ void	handle_min_width(t_printf *p)
 void	handle_hash(t_printf *p)
 {
 	char	*hash;
-	char	*tmp;
 
-	if (p->flags & F_HASH)
+	if ((p->c == 'x' || p->c == 'X') && p->flags & F_HASH)
 	{
 		hash = (p->c == 'x') ? "0x" : "0X";
-		tmp = ft_strjoin(hash, p->conversion);
-		free(p->conversion);
-		p->conversion = tmp;
+		prepend(p, hash);
 	}
 }
 

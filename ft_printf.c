@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:39:55 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/01 14:21:09 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/12 13:16:25 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,22 @@ void	convert(t_printf *p)
 	get_min_width(p);
 	get_precision(p);
 	handle_initial_conversion(p);
-	if (p->flags & F_PRECISION)
+	if ((p->flags & F_MINUS && p->flags & F_ZERO) ||
+			(p->flags & F_PRECISION && p->flags & INTEGER_CONVERSION))
+		p->flags &= ~F_ZERO;
+	if (p->flags & F_PRECISION && (p->flags & INTEGER_CONVERSION || p->c == 's' || p->c == 'S'))
 		handle_precision(p);
+	if (!(p->flags & F_ZERO))
+	{
+		handle_sign(p);
+		handle_hash(p);
+	}
 	handle_min_width(p);
+	if (p->flags & F_ZERO)
+	{
+		handle_sign(p);
+		handle_hash(p);
+	}
 	if (p->conversion && !p->error)
 		add_to_buf(p, p->conversion, ft_strlen(p->conversion));
 	ready_for_next_conversion(p);
@@ -84,7 +97,7 @@ int		ft_printf(const char *format, ...)
 	va_end(p.arg);
 	if (!p.error)
 	{
-		write(1, p.buf, ft_strlen(p.buf));
+		write(1, p.buf, p.buf_index);
 		free(p.buf);
 		return (p.buf_index);
 	}

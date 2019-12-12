@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 14:52:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/01 14:51:02 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/12 12:49:55 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define F_APOSTROPHE		(1 << 5)
 # define F_PRECISION		(1 << 6)
 # define INTEGER_CONVERSION	(1 << 7)
+# define SIGNED_CONVERSION	(1 << 8)
 
 # define FLAG_ORDER		"#-+ 0'"
 
@@ -43,12 +44,13 @@ typedef	struct			s_printf
 	short				flags;
 	int					min_width;
 	int					precision;
+	unsigned int		c;
+	int					is_negative;
 	int					buf_index;
 	char				*buf;
 	int					buf_size;
 	va_list				arg;
 	char				*format;
-	unsigned int		c;
 	short				error;
 	char				*conversion;
 }						t_printf;
@@ -90,6 +92,7 @@ void					convert_percent(t_printf *p);
 void					handle_min_width(t_printf *p);
 void					handle_precision(t_printf *p);
 void					handle_hash(t_printf *p);
+void					handle_sign(t_printf *p);
 void					add_separators(t_printf *p);
 
 /*
@@ -103,5 +106,6 @@ void					add_to_buf(t_printf *p, void *src, size_t size);
 */
 
 void					error_return(t_printf *p, int error_number);
+void					prepend(t_printf *p, char *str);
 
 #endif

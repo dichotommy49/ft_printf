@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 13:41:23 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/01 13:48:38 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/09 13:49:25 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ void	get_precision(t_printf *p)
 			p->precision = ft_atoi(p->format);
 		while (ft_isdigit(*p->format))
 			p->format++;
+		p->precision *= (p->precision < 0) ? -1 : 1;
 	}
 }
