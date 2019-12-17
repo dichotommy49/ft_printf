@@ -1,24 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/09 14:39:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 16:09:10 by tmelvin          ###   ########.fr       */
+/*   Created: 2019/10/08 13:57:43 by tmelvin           #+#    #+#             */
+/*   Updated: 2019/10/08 13:59:12 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <locale.h>
-
-int		main(void)
+int		ft_isascii(int c)
 {
-	wchar_t s[4];
-	
-	setlocale(LC_ALL, "");
-	int i = ft_printf("--.4u et %#O0%#012);
-	printf("\n%d\n", i);
-	return (0);
+	return (c >= 0 && c <= 127);
 }

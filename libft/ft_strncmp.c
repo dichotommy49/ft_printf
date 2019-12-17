@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/12 12:03:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/15 14:47:44 by tmelvin          ###   ########.fr       */
+/*   Created: 2019/10/08 12:52:28 by tmelvin           #+#    #+#             */
+/*   Updated: 2019/10/27 16:41:22 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-/*
-**	Prepend a string to your dynamically allocated p->conversion (formatted result of conversion).
-*/
-
-void	prepend(t_printf *p, char *str)
+int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	char	*tmp;
-	
-	if (!(tmp = ft_strjoin(str, p->conversion)))
-		return (error_return(p, -1));
-	free(p->conversion);
-	p->conversion = tmp;
-}
+	unsigned char	uc1;
+	unsigned char	uc2;
 
-int		max(int a, int b)
-{
-	return ((a > b) ? a : b);
-}
-
-int		min(int a, int b)
-{
-	return ((a < b) ? a : b);
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	while (n && *s1 && *s2)
+	{
+		uc1 = (unsigned char)*s1++;
+		uc2 = (unsigned char)*s2++;
+		if (uc1 != uc2)
+			return (uc1 - uc2);
+		n--;
+	}
+	if (n != 0)
+		return ((unsigned char)*s1 - (unsigned char)*s2);
+	return (0);
 }

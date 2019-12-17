@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 14:05:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/12 13:17:39 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/16 17:37:09 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_precision(t_printf *p)
 	char	replace;
 	char	replacement[2];
 
-	if (p->flags & INTEGER_CONVERSION)
+	if (p->flags & INTEGER_CONVERSION && !p->error)
 	{
 		if ((replace = (p->conversion[0] == '-' || p->conversion[0] == '+' || p->conversion[0] == ' ') ? p->conversion[0] : 0))
 		{
@@ -74,19 +74,31 @@ void	handle_min_width(t_printf *p)
 			(p->flags & F_PRECISION && p->flags & INTEGER_CONVERSION))
 		p->flags &= ~F_ZERO;
 	pad = (p->flags & F_ZERO) ? '0' : ' ';
-	if ((pad_size = (p->min_width - ft_strlen(p->conversion))) > 0)
+	pad_size = (p->min_width - ((p->flags & NULL_TERMINATOR) ? 0 : ft_strlen(p->conversion)));
+	if (p->flags & F_ZERO && (p->c == 'x' || p->c == 'X') && p->flags & F_HASH)
+		pad_size -= 2;
+	if (p->flags & SIGNED_CONVERSION && p->flags & F_ZERO && (p->is_negative || p->flags & F_PLUS || p->flags & F_SPACE))
+		pad_size -= 1;
+	if (pad_size > 0 && !p->error)
 	{
-		if (p->flags & F_ZERO && (p->c == 'x' || p->c == 'X') && p->flags & F_HASH)
-			pad_size -= 2;
-		if (p->flags & SIGNED_CONVERSION && p->flags & F_ZERO && (p->is_negative || p->flags & F_PLUS || p->flags & F_SPACE))
-			pad_size -= 1;
-		if (!(padding = malloc((pad_size + 1) * sizeof(*padding))))
+		if (!(padding = ft_calloc(pad_size + 1, sizeof(*padding))))
 			return (error_return(p, -1));
 		ft_memset(padding, pad, pad_size);
-		padding[pad_size] = '\0';
-		if (!(tmp = (p->flags & F_MINUS) ? ft_strjoin(p->conversion, padding)
+		if (p->flags & NULL_TERMINATOR)
+		{
+			if (!(tmp = ft_strdup(padding)))
+				return (error_return(p, -1));
+			if (p->flags & F_MINUS)
+				tmp[0] = p->character;
+			else
+				tmp[ft_strlen(tmp) - 1] = p->character;
+		}
+		else
+		{
+			if (!(tmp = (p->flags & F_MINUS) ? ft_strjoin(p->conversion, padding)
 					: ft_strjoin(padding, p->conversion)))
 			return (error_return(p, -1));
+		}
 		free(p->conversion);
 		free(padding);
 		p->conversion = tmp;
@@ -137,15 +149,31 @@ void	handle_initial_conversion(t_printf *p)
 {
 	p->c = *p->format;
 	if (p->c == 'c' || p->c == 'C')
+	{
+		if (p->c == 'C')
+			p->flags |= F_L;
 		convert_c(p);
+	}
 	else if (p->c == 's' || p->c == 'S')
+	{
+		if (p->c == 'S')
+			p->flags |= F_L;
 		convert_s(p);
+	}
 	else if (p->c == 'p' || p->c == 'P')
 		convert_p(p);
 	else if (p->c == 'd' || p->c == 'i' || p->c == 'D' || p->c == 'I')
+	{
+		if (p->c == 'D')
+			p->flags |= F_L;
 		convert_di(p);
+	}
 	else if (p->c == 'u' || p->c == 'U')
+	{
+		if (p->c == 'U')
+			p->flags |= F_L;
 		convert_u(p);
+	}
 	else if (p->c == 'x' || p->c == 'X')
 		convert_x(p);
 	else if (p->c == '%')

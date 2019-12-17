@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/12 12:03:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/15 14:47:44 by tmelvin          ###   ########.fr       */
+/*   Created: 2019/10/07 16:00:11 by tmelvin           #+#    #+#             */
+/*   Updated: 2019/10/27 15:43:54 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-/*
-**	Prepend a string to your dynamically allocated p->conversion (formatted result of conversion).
-*/
-
-void	prepend(t_printf *p, char *str)
+int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char	*tmp;
-	
-	if (!(tmp = ft_strjoin(str, p->conversion)))
-		return (error_return(p, -1));
-	free(p->conversion);
-	p->conversion = tmp;
-}
+	const unsigned char	*uch_s1;
+	const unsigned char	*uch_s2;
 
-int		max(int a, int b)
-{
-	return ((a > b) ? a : b);
-}
-
-int		min(int a, int b)
-{
-	return ((a < b) ? a : b);
+	uch_s1 = s1;
+	uch_s2 = s2;
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	while (n--)
+	{
+		if (*uch_s1 != *uch_s2)
+			return (*uch_s1 - *uch_s2);
+		uch_s1++;
+		uch_s2++;
+	}
+	return (0);
 }

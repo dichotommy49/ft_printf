@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/12 12:03:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/15 14:47:44 by tmelvin          ###   ########.fr       */
+/*   Created: 2019/10/07 16:40:50 by tmelvin           #+#    #+#             */
+/*   Updated: 2019/10/30 16:17:56 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-/*
-**	Prepend a string to your dynamically allocated p->conversion (formatted result of conversion).
-*/
-
-void	prepend(t_printf *p, char *str)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	char	*tmp;
-	
-	if (!(tmp = ft_strjoin(str, p->conversion)))
-		return (error_return(p, -1));
-	free(p->conversion);
-	p->conversion = tmp;
-}
+	size_t	src_len;
+	size_t	ret;
 
-int		max(int a, int b)
-{
-	return ((a > b) ? a : b);
-}
-
-int		min(int a, int b)
-{
-	return ((a < b) ? a : b);
+	if (dst == NULL || src == NULL)
+		return (0);
+	ret = ft_strlen(src);
+	src_len = ret;
+	if (size == 0)
+		return (ret);
+	if (src_len + 1 > size)
+		src_len = size - 1;
+	ft_memcpy(dst, src, src_len);
+	dst[src_len] = '\0';
+	return (ret);
 }

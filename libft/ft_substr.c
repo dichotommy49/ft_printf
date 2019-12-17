@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/12 12:03:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/15 14:47:44 by tmelvin          ###   ########.fr       */
+/*   Created: 2019/10/08 14:29:56 by tmelvin           #+#    #+#             */
+/*   Updated: 2019/10/21 12:11:57 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-/*
-**	Prepend a string to your dynamically allocated p->conversion (formatted result of conversion).
-*/
-
-void	prepend(t_printf *p, char *str)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*tmp;
-	
-	if (!(tmp = ft_strjoin(str, p->conversion)))
-		return (error_return(p, -1));
-	free(p->conversion);
-	p->conversion = tmp;
-}
+	char	*output;
+	size_t	i;
 
-int		max(int a, int b)
-{
-	return ((a > b) ? a : b);
-}
-
-int		min(int a, int b)
-{
-	return ((a < b) ? a : b);
+	if (!(output = malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	if (s && start < (unsigned int)ft_strlen(s))
+	{
+		i = 0;
+		while (s[start + i] && i < len)
+		{
+			output[i] = s[start + i];
+			i++;
+		}
+		output[i] = '\0';
+	}
+	else
+		output[0] = '\0';
+	return (output);
 }

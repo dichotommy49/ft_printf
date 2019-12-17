@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/12 12:03:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/15 14:47:44 by tmelvin          ###   ########.fr       */
+/*   Created: 2019/10/12 16:13:07 by tmelvin           #+#    #+#             */
+/*   Updated: 2019/10/22 16:54:30 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-/*
-**	Prepend a string to your dynamically allocated p->conversion (formatted result of conversion).
-*/
-
-void	prepend(t_printf *p, char *str)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	char	*tmp;
-	
-	if (!(tmp = ft_strjoin(str, p->conversion)))
-		return (error_return(p, -1));
-	free(p->conversion);
-	p->conversion = tmp;
-}
+	t_list	*ptr;
+	t_list	*tmp;
 
-int		max(int a, int b)
-{
-	return ((a > b) ? a : b);
-}
-
-int		min(int a, int b)
-{
-	return ((a < b) ? a : b);
+	ptr = NULL;
+	if (!lst || !del)
+		return ;
+	if (*lst)
+		ptr = *lst;
+	while (ptr)
+	{
+		tmp = ptr;
+		ptr = ptr->next;
+		if (del)
+			ft_lstdelone(tmp, del);
+	}
+	*lst = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 13:41:23 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/09 13:49:25 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/14 16:41:29 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,28 @@ void	get_precision(t_printf *p)
 		while (ft_isdigit(*p->format))
 			p->format++;
 		p->precision *= (p->precision < 0) ? -1 : 1;
+	}
+}
+
+void	get_modifiers(t_printf *p)
+{
+	if (*p->format == 'l' || *p->format ==  'h')
+	{
+		if (*(p->format + 1) == 'l' || *(p->format + 1) == 'h')
+		{
+			if (*p->format == 'l' && *(p->format + 1) == 'l')
+				p->flags |= F_LL;
+			else if (*p->format == 'h' && *(p->format + 1) == 'h')
+				p->flags |= F_HH;
+			p->format += 2;
+		}
+		else
+		{
+			if (*p->format == 'l')
+				p->flags |= F_L;
+			else
+				p->flags |= F_H;
+			p->format++;
+		}
 	}
 }

@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/12 12:03:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/15 14:47:44 by tmelvin          ###   ########.fr       */
+/*   Created: 2019/11/21 16:40:31 by tmelvin           #+#    #+#             */
+/*   Updated: 2019/11/22 13:59:38 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-/*
-**	Prepend a string to your dynamically allocated p->conversion (formatted result of conversion).
-*/
-
-void	prepend(t_printf *p, char *str)
+void	*ft_realloc(void *ptr, size_t current_size, size_t new_size)
 {
-	char	*tmp;
-	
-	if (!(tmp = ft_strjoin(str, p->conversion)))
-		return (error_return(p, -1));
-	free(p->conversion);
-	p->conversion = tmp;
-}
+	void	*tmp;
 
-int		max(int a, int b)
-{
-	return ((a > b) ? a : b);
-}
-
-int		min(int a, int b)
-{
-	return ((a < b) ? a : b);
+	if (new_size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	else if (!ptr)
+		return (malloc(new_size));
+	if (!(tmp = malloc(new_size)))
+	{
+		free(ptr);
+		return (NULL);
+	}
+	if (new_size > current_size)
+		ft_memcpy(tmp, ptr, current_size);
+	else
+		ft_memcpy(tmp, ptr, new_size);
+	free(ptr);
+	return (tmp);
 }

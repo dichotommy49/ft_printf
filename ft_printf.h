@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 14:52:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/12 12:49:55 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 14:26:54 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <unistd.h>
+# include <wchar.h>
 # include "libft/libft.h"
 
 /*
@@ -29,9 +30,14 @@
 # define F_SPACE			(1 << 3)
 # define F_ZERO				(1 << 4)
 # define F_APOSTROPHE		(1 << 5)
-# define F_PRECISION		(1 << 6)
-# define INTEGER_CONVERSION	(1 << 7)
-# define SIGNED_CONVERSION	(1 << 8)
+# define F_L				(1 << 6)
+# define F_LL				(1 << 7)
+# define F_H				(1 << 8)
+# define F_HH				(1 << 9)
+# define F_PRECISION		(1 << 10)
+# define INTEGER_CONVERSION	(1 << 11)
+# define SIGNED_CONVERSION	(1 << 12)
+# define NULL_TERMINATOR	(1 << 13)
 
 # define FLAG_ORDER		"#-+ 0'"
 
@@ -53,6 +59,7 @@ typedef	struct			s_printf
 	char				*format;
 	short				error;
 	char				*conversion;
+	wint_t				character;
 }						t_printf;
 
 /*
@@ -72,6 +79,7 @@ void					ready_for_next_conversion(t_printf *p);
 void					get_flags(t_printf *p);
 void					get_min_width(t_printf *p);
 void					get_precision(t_printf *p);
+void					get_modifiers(t_printf *p);
 
 /*
 **	Functions to perform specific conversions
@@ -84,6 +92,8 @@ void					convert_di(t_printf *p);
 void					convert_u(t_printf *p);
 void					convert_x(t_printf *p);
 void					convert_percent(t_printf *p);
+char					*convert_wide_char(unsigned int wc, int wlen, int nb_bytes);
+
 
 /*
 **	Functions to apply min width + precision + flags to the converted string
@@ -107,5 +117,7 @@ void					add_to_buf(t_printf *p, void *src, size_t size);
 
 void					error_return(t_printf *p, int error_number);
 void					prepend(t_printf *p, char *str);
+int						max(int a, int b);
+int						min(int a, int b);
 
 #endif

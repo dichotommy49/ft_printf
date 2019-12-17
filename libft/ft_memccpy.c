@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/12 12:03:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/15 14:47:44 by tmelvin          ###   ########.fr       */
+/*   Created: 2019/10/07 14:02:24 by tmelvin           #+#    #+#             */
+/*   Updated: 2019/10/27 15:35:06 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-/*
-**	Prepend a string to your dynamically allocated p->conversion (formatted result of conversion).
-*/
-
-void	prepend(t_printf *p, char *str)
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
-	char	*tmp;
-	
-	if (!(tmp = ft_strjoin(str, p->conversion)))
-		return (error_return(p, -1));
-	free(p->conversion);
-	p->conversion = tmp;
-}
+	unsigned char	*ch_dst;
+	const char		*ch_src;
+	unsigned char	uc;
 
-int		max(int a, int b)
-{
-	return ((a > b) ? a : b);
-}
-
-int		min(int a, int b)
-{
-	return ((a < b) ? a : b);
+	ch_dst = dst;
+	ch_src = src;
+	uc = (unsigned char)c;
+	if (dst == NULL || src == NULL)
+		return (NULL);
+	while (n--)
+	{
+		*ch_dst++ = *ch_src++;
+		if (*(ch_dst - 1) == uc)
+			return ((void *)ch_dst);
+	}
+	return (NULL);
 }

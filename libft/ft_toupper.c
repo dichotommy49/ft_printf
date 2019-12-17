@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/09 14:39:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 16:09:10 by tmelvin          ###   ########.fr       */
+/*   Created: 2019/10/08 14:01:51 by tmelvin           #+#    #+#             */
+/*   Updated: 2019/10/08 14:04:21 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <locale.h>
-
-int		main(void)
+int		ft_toupper(int c)
 {
-	wchar_t s[4];
-	
-	setlocale(LC_ALL, "");
-	int i = ft_printf("--.4u et %#O0%#012);
-	printf("\n%d\n", i);
-	return (0);
+	if (c >= 'a' && c <= 'z')
+		return (c - 32);
+	return (c);
 }
