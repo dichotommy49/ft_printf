@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/14 17:28:18 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/16 16:22:09 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 21:14:02 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static	long long		ft_iterative_power(long long n, int power)
 	return (output);
 }
 
-static	int		get_digits(long long n)
+static	int				get_digits(long long n)
 {
 	int	digits;
 
@@ -44,7 +44,7 @@ static	int		get_digits(long long n)
 	return (digits);
 }
 
-char			*ft_lltoa(long long n)
+char					*ft_lltoa(long long n)
 {
 	char	*output;
 	int		negative;

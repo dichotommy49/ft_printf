@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 14:10:00 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 14:26:28 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 20:19:23 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	add_to_buf(t_printf *p, void *src, size_t size)
 {
+	if ((p->c == 'c' || p->c == 'C') && p->flags & NULL_TERMINATOR)
+		size = max(1, p->min_width);
 	while (p->buf && src && size > 0 && !p->error)
 	{
 		if (p->buf_index + 2 >= p->buf_size)

@@ -6,13 +6,13 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/14 17:35:38 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/14 17:37:40 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 21:15:00 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	unsigned long long		ft_iterative_power(unsigned long long n, int power)
+static unsigned long long	ft_iterative_power(unsigned long long n, int power)
 {
 	unsigned long long output;
 
@@ -29,7 +29,7 @@ static	unsigned long long		ft_iterative_power(unsigned long long n, int power)
 	return (output);
 }
 
-static	int		get_digits(unsigned long long n)
+static	int					get_digits(unsigned long long n)
 {
 	int	digits;
 
@@ -44,7 +44,7 @@ static	int		get_digits(unsigned long long n)
 	return (digits);
 }
 
-char			*ft_ulltoa(unsigned long long n)
+char						*ft_ulltoa(unsigned long long n)
 {
 	char	*output;
 	int		digits;

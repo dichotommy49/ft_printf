@@ -6,24 +6,11 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:39:55 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 14:26:47 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 20:47:34 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-/*
-**	error_number:
-**	-1 = Malloc or other general error
-**	-2 = Undefined behavior (not comprehensive)
-**	-3 = NULL format string
-*/
-
-void	error_return(t_printf *p, int error_number)
-{
-	p->error = error_number;
-	return ;
-}
 
 void	ready_for_next_conversion(t_printf *p)
 {
@@ -35,38 +22,53 @@ void	ready_for_next_conversion(t_printf *p)
 	p->flags = 0;
 	p->min_width = 0;
 	p->precision = 0;
+	p->character = 0;
+}
+
+void	handle_initial_conversion(t_printf *p)
+{
+	p->c = *p->format;
+	if (p->c == 'C' || p->c == 'S' || p->c == 'D' || p->c == 'U')
+		p->flags |= F_L;
+	if (p->c == 'c' || p->c == 'C')
+		convert_c(p);
+	else if (p->c == 's' || p->c == 'S')
+		convert_s(p);
+	else if (p->c == 'p' || p->c == 'P')
+		convert_p(p);
+	else if (p->c == 'd' || p->c == 'i' || p->c == 'D' || p->c == 'I')
+		convert_di(p);
+	else if (p->c == 'u' || p->c == 'U')
+		convert_u(p);
+	else if (p->c == 'x' || p->c == 'X')
+		convert_x(p);
+	else if (p->c == '%')
+		convert_percent(p);
 }
 
 void	convert(t_printf *p)
 {
-	get_flags(p);
-	get_min_width(p);
-	get_precision(p);
-	get_modifiers(p);
+	get_info(p);
 	handle_initial_conversion(p);
 	if ((p->flags & F_MINUS && p->flags & F_ZERO) ||
 			(p->flags & F_PRECISION && p->flags & INTEGER_CONVERSION))
 		p->flags &= ~F_ZERO;
-	if (p->flags & F_PRECISION && (p->flags & INTEGER_CONVERSION || p->c == 's' || p->c == 'S'))
+	if (p->flags & F_PRECISION && (p->flags & INTEGER_CONVERSION || p->c == 's'
+				|| p->c == 'S'))
 		handle_precision(p);
-	if (!(p->flags & F_ZERO) && !p->error)
+	if (!(p->flags & F_ZERO))
 	{
 		handle_sign(p);
 		handle_hash(p);
 	}
 	handle_min_width(p);
-	if (p->flags & F_ZERO && !p->error)
+	if (p->flags & F_ZERO)
 	{
 		handle_sign(p);
 		handle_hash(p);
 	}
 	if (p->conversion && !p->error)
-	{
-		if ((p->c == 'c' || p->c == 'C') && p->flags & NULL_TERMINATOR)
-			add_to_buf(p, p->conversion, max(1, p->min_width));
-		else
-			add_to_buf(p, p->conversion, ft_strlen(p->conversion));
-	}
+		add_to_buf(p, p->conversion, ft_strlen(p->conversion));
 	ready_for_next_conversion(p);
 }
 

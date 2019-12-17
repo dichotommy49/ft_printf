@@ -6,11 +6,19 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 13:41:23 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/14 16:41:29 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 20:27:26 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+void	get_info(t_printf *p)
+{
+	get_flags(p);
+	get_min_width(p);
+	get_precision(p);
+	get_modifiers(p);
+}
 
 void	get_flags(t_printf *p)
 {
@@ -48,6 +56,8 @@ void	get_min_width(t_printf *p)
 			p->flags |= F_MINUS;
 		p->min_width *= (p->min_width < 0) ? -1 : 1;
 	}
+	if (p->flags & F_MINUS && p->flags & F_ZERO)
+		p->flags &= ~F_ZERO;
 }
 
 void	get_precision(t_printf *p)
@@ -73,7 +83,7 @@ void	get_precision(t_printf *p)
 
 void	get_modifiers(t_printf *p)
 {
-	if (*p->format == 'l' || *p->format ==  'h')
+	if (*p->format == 'l' || *p->format == 'h')
 	{
 		if (*(p->format + 1) == 'l' || *(p->format + 1) == 'h')
 		{

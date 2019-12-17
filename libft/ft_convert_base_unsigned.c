@@ -6,13 +6,13 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/14 17:44:39 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/14 17:51:54 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 20:57:03 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int			base_is_invalid(char *base, int base_nbr)
+static int					base_is_invalid(char *base, int base_nbr)
 {
 	int i;
 	int j;
@@ -38,7 +38,7 @@ static int			base_is_invalid(char *base, int base_nbr)
 	return (0);
 }
 
-static int			find_char(char c, char *base_from)
+static int					find_char(char c, char *base_from)
 {
 	int i;
 
@@ -52,7 +52,8 @@ static int			find_char(char c, char *base_from)
 	return (-1);
 }
 
-static unsigned long long	debase(char *nbr, char *base_from, int base_from_nbr)
+static unsigned long long	debase(char *nbr, char *base_from,
+		int base_from_nbr)
 {
 	unsigned long long	result;
 
@@ -68,7 +69,7 @@ static unsigned long long	debase(char *nbr, char *base_from, int base_from_nbr)
 	return (result);
 }
 
-static char			*rebase(unsigned long long nb, char *base_to,
+static char					*rebase(unsigned long long nb, char *base_to,
 		int base_to_nbr)
 {
 	int		i;
@@ -86,7 +87,8 @@ static char			*rebase(unsigned long long nb, char *base_to,
 	return (output);
 }
 
-char				*ft_convert_base_unsigned(char *nbr, char *base_from, char *base_to)
+char						*ft_convert_base_unsigned(char *nbr,
+		char *base_from, char *base_to)
 {
 	unsigned long long		debased_nbr;
 	int						base_from_nbr;

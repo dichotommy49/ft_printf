@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 14:52:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 14:26:54 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 20:53:40 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,10 @@ void					handle_initial_conversion(t_printf *p);
 void					ready_for_next_conversion(t_printf *p);
 
 /*
-**	Functions to parse and store flags + min_width + precision
+**	Functions to parse and store flags + min_width + precision + modifiers
 */
 
+void					get_info(t_printf *p);
 void					get_flags(t_printf *p);
 void					get_min_width(t_printf *p);
 void					get_precision(t_printf *p);
@@ -92,15 +93,19 @@ void					convert_di(t_printf *p);
 void					convert_u(t_printf *p);
 void					convert_x(t_printf *p);
 void					convert_percent(t_printf *p);
-char					*convert_wide_char(unsigned int wc, int wlen, int nb_bytes);
-
 
 /*
-**	Functions to apply min width + precision + flags to the converted string
+**	Functions to apply min width + precision to the converted string
 */
 
 void					handle_min_width(t_printf *p);
+int						get_pad_size(t_printf *p);
 void					handle_precision(t_printf *p);
+
+/*
+**	Functions to apply certain flags to the converted string
+*/
+
 void					handle_hash(t_printf *p);
 void					handle_sign(t_printf *p);
 void					add_separators(t_printf *p);
@@ -117,7 +122,17 @@ void					add_to_buf(t_printf *p, void *src, size_t size);
 
 void					error_return(t_printf *p, int error_number);
 void					prepend(t_printf *p, char *str);
+void					append(t_printf *p, char *str);
 int						max(int a, int b);
 int						min(int a, int b);
+
+/*
+**	Functions used in wide conversions
+*/
+
+void					convert_ws(t_printf *p, wchar_t *ws);
+int						check_ws(t_printf *p, wchar_t *ws);
+char					*convert_wchar(unsigned int wc, int wlen,
+		int nb_bytes, char *tmp);
 
 #endif

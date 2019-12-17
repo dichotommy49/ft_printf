@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 13:46:32 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/16 17:10:52 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 20:51:47 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void		convert_p(t_printf *p)
 
 void		convert_di(t_printf *p)
 {
-	char	*tmp;
-	long long number;
+	char		*tmp;
+	long long	number;
 
 	if (p->flags & F_L)
 		number = (long)va_arg(p->arg, long);
@@ -54,14 +54,13 @@ void		convert_di(t_printf *p)
 	}
 	if (p->flags & F_APOSTROPHE)
 		add_separators(p);
-	p->flags |= SIGNED_CONVERSION;
-	p->flags |= INTEGER_CONVERSION;
+	p->flags |= (SIGNED_CONVERSION | INTEGER_CONVERSION);
 }
 
 void		convert_u(t_printf *p)
 {
 	unsigned long long number;
-	
+
 	if (p->flags & F_L)
 		number = (unsigned long)va_arg(p->arg, unsigned long);
 	else if (p->flags & F_LL)
@@ -81,10 +80,10 @@ void		convert_u(t_printf *p)
 
 void		convert_x(t_printf *p)
 {
-	char *tmp;
-	char *base;
-	unsigned long long number;
-	
+	char				*tmp;
+	char				*base;
+	unsigned long long	number;
+
 	if (p->flags & F_L)
 		number = (unsigned long)va_arg(p->arg, unsigned long);
 	else if (p->flags & F_LL)
@@ -95,7 +94,6 @@ void		convert_x(t_printf *p)
 		number = (unsigned char)va_arg(p->arg, unsigned int);
 	else
 		number = va_arg(p->arg, unsigned int);
-
 	if (number == 0)
 		p->flags &= ~F_HASH;
 	if (!(p->conversion = ft_ulltoa(number)))
@@ -108,21 +106,8 @@ void		convert_x(t_printf *p)
 	p->flags |= INTEGER_CONVERSION;
 }
 
-void		handle_sign(t_printf *p)
+void		convert_percent(t_printf *p)
 {
-	if (p->flags & F_SPACE && p->flags & F_PLUS)
-		p->flags &= ~F_SPACE;
-	
-	if (p->c == 'd' || p->c == 'D' || p->c == 'i' || p->c == 'I')
-	{
-		if (p->is_negative)
-			prepend(p, "-");
-		else
-		{
-			if (p->flags & F_SPACE)
-				prepend(p, " ");
-			else if (p->flags & F_PLUS)
-				prepend(p, "+");
-		}
-	}
+	if (!(p->conversion = ft_strdup("%")))
+		return (error_return(p, -1));
 }

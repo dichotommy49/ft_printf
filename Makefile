@@ -6,14 +6,14 @@
 #    By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/23 14:36:51 by tmelvin           #+#    #+#              #
-#    Updated: 2019/12/12 12:11:51 by tmelvin          ###   ########.fr        #
+#    Updated: 2019/12/17 20:48:44 by tmelvin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := libftprintf.a
 SRCDIR := ./
 LIBDIR := libft
-SRC := ft_printf convert_alpha convert_numeric buffer get_info handle tools
+SRC := ft_printf convert_alpha convert_numeric buffer get_info handle_width handle_flags tools
 CC := gcc
 CFLAGS := -Wall -Wextra -Werror
 OPTIONS := -c
