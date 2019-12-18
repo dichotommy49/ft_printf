@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 13:46:32 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 20:51:47 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/18 15:33:20 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		convert_p(t_printf *p)
 		return (error_return(p, -1));
 	free(p->conversion);
 	p->conversion = tmp;
-	prepend(p, "0x");
+	prepend(p, "0x", 0);
 }
 
 void		convert_di(t_printf *p)
@@ -104,10 +104,4 @@ void		convert_x(t_printf *p)
 	free(p->conversion);
 	p->conversion = tmp;
 	p->flags |= INTEGER_CONVERSION;
-}
-
-void		convert_percent(t_printf *p)
-{
-	if (!(p->conversion = ft_strdup("%")))
-		return (error_return(p, -1));
 }

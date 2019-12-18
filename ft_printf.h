@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 14:52:35 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 20:53:40 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/18 15:25:03 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void					convert_p(t_printf *p);
 void					convert_di(t_printf *p);
 void					convert_u(t_printf *p);
 void					convert_x(t_printf *p);
+void					convert_n(t_printf *p);
 void					convert_percent(t_printf *p);
 
 /*
@@ -121,8 +122,8 @@ void					add_to_buf(t_printf *p, void *src, size_t size);
 */
 
 void					error_return(t_printf *p, int error_number);
-void					prepend(t_printf *p, char *str);
-void					append(t_printf *p, char *str);
+void					prepend(t_printf *p, char *str, int dynamic);
+void					append(t_printf *p, char *str, int dynamic);
 int						max(int a, int b);
 int						min(int a, int b);
 

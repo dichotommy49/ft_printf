@@ -5,39 +5,38 @@
 #                                                     +:+ +:+         +:+      #
 #    By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/10/23 14:36:51 by tmelvin           #+#    #+#              #
-#    Updated: 2019/12/18 15:26:23 by tmelvin          ###   ########.fr        #
+#    Created: 2019/10/09 16:43:49 by tmelvin           #+#    #+#              #
+#    Updated: 2019/12/15 13:58:50 by tmelvin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := libftprintf.a
+NAME := libft.a
 SRCDIR := ./
-LIBDIR := libft
-SRC := ft_printf convert_alpha convert_numeric convert_misc buffer get_info handle_width handle_flags tools
-CC := gcc
+BONUSDIR := ./
+SRC := ft_memset ft_bzero ft_memcpy ft_memccpy ft_memmove ft_memchr ft_memcmp ft_strlen ft_strlcpy ft_strlcat ft_strchr ft_strrchr ft_strnstr ft_strncmp ft_atoi ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint ft_toupper ft_tolower ft_calloc ft_strdup ft_substr ft_strjoin ft_strtrim ft_split ft_itoa ft_strmapi ft_putchar_fd ft_putstr_fd ft_putendl_fd ft_putnbr_fd ft_realloc ft_uitoa ft_convert_base ft_strrev ft_ultoa ft_lltoa ft_ulltoa ft_convert_base_unsigned ft_wcharlen ft_wstrlen
+BONUS_SRC := ft_lstnew_bonus ft_lstadd_front_bonus ft_lstsize_bonus ft_lstlast_bonus ft_lstadd_back_bonus ft_lstdelone_bonus ft_lstclear_bonus ft_lstiter_bonus ft_lstmap_bonus
 CFLAGS := -Wall -Wextra -Werror
 OPTIONS := -c
 CFILES := $(patsubst %, $(SRCDIR)%.c, $(SRC))
+BONUS_CFILES := $(patsubst %, $(BONUSDIR)%.c, $(BONUS_SRC))
 OBJECTS := $(patsubst %, $(SRCDIR)%.o, $(SRC))
+BONUS_OBJECTS := $(patsubst %, $(BONUSDIR)%.o, $(BONUS_SRC))
 
 all : $(NAME)
 
 %.o : %.c
-	$(CC) $(CFLAGS) $(OPTIONS) -o $@ $<
+	gcc $(CFLAGS) $(OPTIONS) -o $@ $<
 $(NAME) : $(OBJECTS)
-	$(MAKE) -C $(LIBDIR) all
-	cp libft/libft.a $(NAME)
 	ar rc $(NAME) $(OBJECTS)
 	ranlib $(NAME)
 clean :
 	rm -f $(OBJECTS) $(BONUS_OBJECTS)
-	$(MAKE) -C $(LIBDIR) clean
 fclean : clean
 	rm -f $(NAME)
-	rm -f $(LIBDIR)/libft.a
 re : fclean all
 
-bonus : all 
+bonus : $(BONUS_OBJECTS)
+	ar rc $(NAME) $(BONUS_OBJECTS)
+	ranlib $(NAME)
 
 .PHONY : all clean fclean re bonus
-

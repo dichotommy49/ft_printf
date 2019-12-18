@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 20:48:31 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 20:48:35 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/18 14:47:31 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void	handle_precision(t_printf *p)
 			p->conversion[0] = '\0';
 		if ((padding = p->precision - ft_strlen(p->conversion)) > 0)
 		{
-			if (!(tmp = calloc((padding + 1), sizeof(*tmp))))
+			if (!(tmp = ft_calloc((padding + 1), sizeof(*tmp))))
 				return (error_return(p, -1));
 			ft_memset(tmp, '0', padding);
-			prepend(p, tmp);
+			prepend(p, tmp, 1);
 		}
 	}
-	else if (p->c == 's' || p->c == 'S')
+	else if ((p->c == 's' || p->c == 'S') && !p->error)
 	{
 		if (!(tmp = malloc((p->precision + 1) * sizeof(*tmp))))
 			return (error_return(p, -1));
@@ -51,7 +51,7 @@ void	handle_min_width(t_printf *p)
 	{
 		if (!(padding = ft_calloc(pad_size + 1, sizeof(*padding))))
 			return (error_return(p, -1));
-		ft_memset(padding, pad, pad_size);
+		padding = ft_memset(padding, pad, pad_size);
 		if (p->flags & NULL_TERMINATOR)
 		{
 			if (p->flags & F_MINUS)
@@ -62,7 +62,8 @@ void	handle_min_width(t_printf *p)
 			p->conversion = padding;
 		}
 		else
-			(p->flags & F_MINUS) ? append(p, padding) : prepend(p, padding);
+			(p->flags & F_MINUS) ? append(p, padding, 1)
+				: prepend(p, padding, 1);
 	}
 }
 

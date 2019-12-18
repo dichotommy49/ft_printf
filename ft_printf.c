@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:39:55 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 20:47:34 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/18 15:25:41 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void	handle_initial_conversion(t_printf *p)
 		convert_x(p);
 	else if (p->c == '%')
 		convert_percent(p);
+	else if (p->c == 'n')
+		convert_n(p);
+	else
+		p->error = -2;
 }
 
 void	convert(t_printf *p)
@@ -100,23 +104,24 @@ int		ft_printf(const char *format, ...)
 	ft_bzero(&p, sizeof(p));
 	va_start(p.arg, format);
 	p.buf_size = 16;
-	p.buf = malloc(p.buf_size * sizeof(*p.buf));
+	if (!(p.buf = malloc(p.buf_size * sizeof(*p.buf))))
+		p.error = -4;
 	if ((p.format = (char *)format))
 		process_format(&p);
 	else
 		p.error = -3;
 	va_end(p.arg);
 	if (!p.error)
-	{
 		write(1, p.buf, p.buf_index);
+	if (p.error != -4)
 		free(p.buf);
-		return (p.buf_index);
-	}
-	if (p.error == -1)
+	if (p.error == -1 || p.error == -4)
 		write(1, "Malloc error\n", 13);
 	else if (p.error == -2)
 		write(1, "Undefined behavior\n", 19);
 	else if (p.error == -3)
 		write(1, "Format string is NULL\n", 22);
+	else
+		return (p.buf_index);
 	return (p.error);
 }

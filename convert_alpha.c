@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 13:43:41 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 20:53:25 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/18 13:09:53 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void		convert_ws(t_printf *p, wchar_t *ws)
 			free(tmp);
 			return (error_return(p, -1));
 		}
+		free(tmp);
 		free(p->conversion);
 		p->conversion = tmp2;
 		wlen -= wcharlen;
@@ -115,7 +116,7 @@ int			check_ws(t_printf *p, wchar_t *ws)
 
 char		*convert_wchar(unsigned int wc, int wlen, int nb_bytes, char *tmp)
 {
-	if (!(tmp = calloc(nb_bytes + 1, sizeof(*tmp))))
+	if (!(tmp = ft_calloc(nb_bytes + 1, sizeof(*tmp))))
 		return (tmp);
 	if (nb_bytes <= wlen && nb_bytes <= MB_CUR_MAX)
 	{

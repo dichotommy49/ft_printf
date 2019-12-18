@@ -6,7 +6,7 @@
 /*   By: tmelvin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 13:41:23 by tmelvin           #+#    #+#             */
-/*   Updated: 2019/12/17 20:27:26 by tmelvin          ###   ########.fr       */
+/*   Updated: 2019/12/17 21:55:38 by tmelvin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	get_flags(t_printf *p)
 	char	*pos;
 
 	flag_order = FLAG_ORDER;
-	while ((pos = ft_strchr(flag_order, *p->format)) != NULL)
+	while (*p->format && (pos = ft_strchr(flag_order, *p->format)) != NULL)
 	{
 		p->flags |= (1 << (pos - flag_order));
 		p->format++;
